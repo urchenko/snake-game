@@ -84,6 +84,16 @@
     machine.change(Config.STATE_START);
     loop.start();
 
+    // After a "No" redirect, pressing the browser Back button can restore this
+    // page from the back-forward cache WITHOUT re-running scripts — leaving the
+    // FSM frozen wherever it was (no dialog). Reset the flow to START on bfcache
+    // restore so the player always lands back on "Play Snake?".
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) {
+        machine.change(Config.STATE_START);
+      }
+    });
+
     App._debug = { emitter: emitter, machine: machine, game: game, loop: loop };
   }
 
