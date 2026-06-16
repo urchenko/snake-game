@@ -1,0 +1,186 @@
+/* Own styles only — no UI libraries, no native control look. */
+
+:root {
+  --color-bg: #0e1116;
+  --color-scene: #11161d;
+  --color-board-even: #161c25;
+  --color-board-odd: #131922;
+  --color-snake: #4cc38a;
+  --color-head: #74e8ae;
+  --color-food: #e5534b;
+  --color-text: #e6edf3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  /* Center the fixed 1280x720 stage in the viewport. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* The fixed 1280x720 stage. */
+.scene {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  background: var(--color-scene);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+
+/* Top HUD band. */
+.hud {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.hud__brand {
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--color-head);
+}
+.hud__status {
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-food);
+}
+.hud__score {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Playfield sits below the HUD. */
+.playfield {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  width: 1280px;
+  height: 640px;
+}
+
+/* Pooled cells: positioned once, only className (background) changes per tick. */
+.cell {
+  position: absolute;
+}
+.cell--even { background: var(--color-board-even); }
+.cell--odd  { background: var(--color-board-odd); }
+
+.cell--snake { background: var(--color-snake); }
+.cell--head  { background: var(--color-head); }
+.cell--food  { background: var(--color-food); border-radius: 50%; }
+
+/* UI layer: our own dialogs render here, above the board, below the ad. */
+.ui-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+  z-index: 500;
+  pointer-events: none; /* keyboard-driven; no stray clicks */
+}
+
+/* Custom dialog (no native controls). */
+.dialog {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 11, 15, 0.62);
+}
+.dialog__panel {
+  min-width: 420px;
+  padding: 36px 44px 28px;
+  background: #161c25;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+.dialog__title {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.dialog__message {
+  margin-top: 10px;
+  font-size: 18px;
+  color: rgba(230, 237, 243, 0.72);
+}
+.dialog__options {
+  margin-top: 26px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+.dialog__option {
+  min-width: 132px;
+  padding: 14px 0;
+  font-size: 20px;
+  border-radius: 10px;
+  background: #11161d;
+  border: 2px solid transparent;
+  color: rgba(230, 237, 243, 0.82);
+}
+.dialog__option--active {
+  border-color: var(--color-head);
+  background: #1d2530;
+  color: var(--color-text);
+  box-shadow: 0 0 0 4px rgba(116, 232, 174, 0.12);
+}
+.dialog__hint {
+  margin-top: 22px;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  color: rgba(230, 237, 243, 0.45);
+}
+
+/* Ad overlay: same window, above everything (Day 4). */
+.ad-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+  z-index: 1000;
+  background: #000;
+}
+.ad-overlay--hidden {
+  display: none;
+}
+.ad-video,
+.ad-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+}

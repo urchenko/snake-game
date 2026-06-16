@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Snake — Play.Works test task</title>
+  <meta name="viewport" content="width=1280, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Fixed 1280x720 stage, centered in the viewport. Everything is our own DOM. -->
+  <div id="scene" class="scene">
+    <div id="hud" class="hud"></div>
+    <div id="playfield" class="playfield"></div>
+
+    <!-- UI layer: our own dialogs/menus render here, above the board. -->
+    <div id="ui-layer" class="ui-layer"></div>
+
+    <!-- Ad overlay lives in the SAME window, on top of the scene (z-index).
+         Built out on Day 4; kept here so layout/stacking is final from the start. -->
+    <div id="ad-overlay" class="ad-overlay ad-overlay--hidden">
+      <video id="ad-video" class="ad-video" playsinline></video>
+      <div id="ad-container" class="ad-container"></div>
+    </div>
+  </div>
+
+  <!-- Google IMA SDK (external lib; only place we depend on non-ES5 code). Day 4. -->
+  <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+
+  <!-- No ES modules: plain <script> tags, ordered bottom-up by dependency. -->
+  <script src="src/config.js"></script>
+  <script src="src/core/eventEmitter.js"></script>
+  <script src="src/core/gameLoop.js"></script>
+  <script src="src/core/stateMachine.js"></script>
+  <script src="src/render/renderer.js"></script>
+  <script src="src/render/domRenderer.js"></script>
+  <script src="src/input/inputController.js"></script>
+  <script src="src/game/board.js"></script>
+  <script src="src/game/snake.js"></script>
+  <script src="src/game/food.js"></script>
+  <script src="src/game/snakeGame.js"></script>
+  <script src="src/ads/adService.js"></script>
+  <script src="src/ads/imaAdService.js"></script>
+  <script src="src/ui/hud.js"></script>
+  <script src="src/ui/dialog.js"></script>
+  <script src="src/states/startState.js"></script>
+  <script src="src/states/adState.js"></script>
+  <script src="src/states/playingState.js"></script>
+  <script src="src/states/gameOverState.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
