@@ -89,6 +89,10 @@ App.Config = (function () {
     /* Hard safety cap on the whole ad from start of playback. Generous so it
      * never cuts a real ad, but guarantees a broken/hung creative (e.g. a VPAID
      * player whose script can't run) can't freeze the game. */
-    AD_MAX_DURATION_MS: 60000
+    AD_MAX_DURATION_MS: 60000,
+
+    /* Log the IMA ad lifecycle to the console ([ads] ...) for diagnosis.
+     * Off by default for a clean console; flip to true to trace ad playback. */
+    AD_DEBUG: false
   };
 })();
