@@ -149,6 +149,10 @@ body {
   background: #11161d;
   border: 2px solid transparent;
   color: rgba(230, 237, 243, 0.82);
+  /* The UI layer is click-through (pointer-events: none); re-enable it on the
+     buttons so hover/click work, leaving the rest of the layer transparent. */
+  pointer-events: auto;
+  cursor: pointer;
 }
 .dialog__option--active {
   border-color: var(--color-head);

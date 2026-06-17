@@ -76,7 +76,16 @@ App.Dialog = (function () {
       var el = document.createElement('div');
       el.className = 'dialog__option';
       el.textContent = opt.label;
-      // Mouse is optional (Day 5); the element is keyboard-first by design.
+      // Conventional mouse/touch menu UX: hover highlights, click selects.
+      // Keyboard still works via handleCommand(); both share the same _index.
+      el.addEventListener('mouseenter', function () {
+        self._index = i;
+        self._highlight();
+      });
+      el.addEventListener('click', function () {
+        self._index = i;
+        self._select(opt.value);
+      });
       list.appendChild(el);
       self._optionEls.push(el);
     });
@@ -84,7 +93,7 @@ App.Dialog = (function () {
 
     var hint = document.createElement('div');
     hint.className = 'dialog__hint';
-    hint.textContent = 'Arrows: choose   Enter: confirm   Backspace: No';
+    hint.textContent = 'Arrows / hover: choose   Enter / click: confirm   Backspace: No';
     panel.appendChild(hint);
 
     root.appendChild(panel);

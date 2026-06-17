@@ -40,6 +40,9 @@ Input is captured once and turned into **semantic commands** (`UP/DOWN/LEFT/RIGH
 nothing downstream sees raw key codes. Arrow and Backspace defaults (page scroll, browser
 "back") are suppressed.
 
+**Mouse / touch** works in menus: hover highlights a button, click/tap selects it — see
+"Mouse / touch input" below.
+
 ---
 
 ## Game rules (classic; fixed assumptions)
@@ -259,13 +262,20 @@ No game, state, or input code changes — that's the point of the abstraction.
 line in `main.js` to disable ads (`new App.NoopAdService()`), or write another provider against
 the same contract.
 
-### Mouse input (not implemented — by design)
+### Mouse / touch input
 
-Mouse was the explicitly optional, lowest-priority item. The clean way to add it is a second
-command source that emits the **same** semantic commands into the existing `EventEmitter`
-(e.g. a `MouseController` where clicking a dialog option emits `CONFIRM` for that option). It was
-left out rather than bolted on in a way that would contradict the single-command-source model;
-the extension point is the `'command'` event, so no consumer would need to change.
+Used where it's actually natural: **menus**. The `Dialog` ([`src/ui/dialog.js`](src/ui/dialog.js))
+handles mouse/touch on its own buttons — **hover highlights**, **click/tap selects** — sharing
+the same `_index` as the keyboard so both stay in sync. The CSS re-enables `pointer-events` on
+`.dialog__option` (the UI layer is otherwise click-through).
+
+Steering the snake is **keyboard-only** by design. The target is desktop Chrome with a keyboard,
+and dragging a mouse to steer a snake isn't a natural interaction; touch isn't a target platform.
+A pointer/touch steering layer was prototyped and removed — but it's a clean **extension point**
+if a touch target were ever needed: add a second source that emits the same directional commands
+(`UP/DOWN/LEFT/RIGHT`) into the existing `EventEmitter` (the `'command'` event), with
+`touch-action: none` on the scene and `pointercancel` handling so the browser doesn't claim the
+gesture. No game/state code would change.
 
 ---
 
@@ -282,7 +292,6 @@ over http(s) with the sample tag, and the adblock-on path is verified to skip gr
 
 ## What I'd improve with more time
 
-- Mouse/touch as a second command source (above).
 - A small test harness committed to the repo (the dev tests were throwaway scripts).
 - Sound and a bit more game feel (eat flash, death shake), and a persistent high score.
 - A `CanvasRenderer` to demonstrate the renderer swap end-to-end.
