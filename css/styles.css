@@ -180,10 +180,12 @@ body {
 .cell--even { background: var(--color-board-even); }
 .cell--odd  { background: var(--color-board-odd); }
 
-/* Body cells butt together edge-to-edge (no rounding, no per-cell highlight)
-   so the snake reads as one continuous path rather than separate tiles. */
+/* Body cells butt together edge-to-edge. A faint inset border hints the
+   individual segments (so it still reads as a snake, and corners show the
+   cells) while the green fill stays continuous — not separate tiles. */
 .cell--snake {
   background: var(--color-snake);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
 }
 /* Head: base look; the directional variant rounds the LEADING edge and places
    the eyes toward the facing side, so the head "looks" where it moves and joins
