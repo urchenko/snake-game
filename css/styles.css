@@ -43,6 +43,51 @@ body {
   user-select: none;
 }
 
+/* Game feel: one-shot animations re-triggered from JS (Effects). */
+
+/* Flash overlay: glow painted once; we animate only opacity (GPU-composited),
+   so it never repaints the board per frame and can't jank the game loop. */
+.fx-flash-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1280px;
+  height: 720px;
+  z-index: 400;            /* above the board, below dialogs (500) and ads (1000) */
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: inset 0 0 120px rgba(116, 232, 174, 0.55);
+  will-change: opacity;
+}
+.fx-flash-layer.is-flash {
+  animation: fx-flash 200ms ease-out;
+}
+@keyframes fx-flash {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.scene.fx-shake {
+  animation: fx-shake 320ms ease-in-out;
+}
+@keyframes fx-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20%      { transform: translate(-9px, 5px); }
+  40%      { transform: translate(8px, -6px); }
+  60%      { transform: translate(-6px, 4px); }
+  80%      { transform: translate(5px, -3px); }
+}
+
+/* Accessibility: honor the OS/browser "reduce motion" setting — no flash,
+   shake, or score pop for users who asked for less motion. No UI, no state. */
+@media (prefers-reduced-motion: reduce) {
+  .fx-flash-layer.is-flash,
+  .scene.fx-shake,
+  .hud__score.is-pulse {
+    animation: none;
+  }
+}
+
 /* Top HUD band. */
 .hud {
   position: absolute;
@@ -81,6 +126,16 @@ body {
 }
 .hud__score {
   font-variant-numeric: tabular-nums;
+  display: inline-block;        /* so transform (pulse) applies */
+  transform-origin: right center;
+}
+.hud__score.is-pulse {
+  animation: hud-pulse 180ms ease-out;
+}
+@keyframes hud-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.28); color: var(--color-head); }
+  100% { transform: scale(1); }
 }
 
 /* Playfield sits below the HUD. */

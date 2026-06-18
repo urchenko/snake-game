@@ -55,6 +55,14 @@ App.Hud = (function () {
     this._best.textContent = 'Best: ' + best;
   };
 
+  /** Briefly pop the score number (game feel on eat). */
+  Hud.prototype.pulseScore = function () {
+    var el = this._score;
+    el.classList.remove('is-pulse');
+    void el.offsetWidth; // restart the animation
+    el.classList.add('is-pulse');
+  };
+
   /** @param {string} text centered status text (e.g. "Paused"); '' to clear. */
   Hud.prototype.setStatus = function (text) {
     this._status.textContent = text;

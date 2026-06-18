@@ -40,14 +40,20 @@ App.PlayingState = (function () {
     this._onBlur = function () { self._pause(); };
     this._onFocus = function () { self._resume(); };
 
-    this._onAte = function (p) { self._ctx.hud.setScore(p.score); };
+    this._onAte = function (p) {
+      self._ctx.hud.setScore(p.score);
+      self._ctx.hud.pulseScore();
+      self._ctx.effects.flash();
+    };
     this._onGameOver = function (p) {
+      self._ctx.effects.shake();
       self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, reason: p.reason, won: false
       });
     };
     this._onWin = function (p) {
+      self._ctx.effects.flash();
       self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, won: true

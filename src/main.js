@@ -34,6 +34,7 @@
 
     var hud = new App.Hud(hudEl);
     var dialog = new App.Dialog(uiLayerEl);
+    var effects = new App.Effects(sceneEl);
     var game = new App.SnakeGame();
     var highScore = new App.HighScore(Config.HISCORE_KEY);
 
@@ -57,6 +58,7 @@
       renderer: renderer,
       hud: hud,
       dialog: dialog,
+      effects: effects,
       game: game,
       highScore: highScore,
       adService: adService,
