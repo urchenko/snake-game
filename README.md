@@ -246,9 +246,9 @@ Everything below is in [`src/config.js`](src/config.js).
 ### Swapping the renderer to Canvas/WebGL
 
 Implement the four methods of the `Renderer` contract
-([`src/render/renderer.js`](src/render/renderer.js)) — `init`, `clear`, `drawCell(x,y,type)`,
-`clearCell(x,y)` — in a `CanvasRenderer` that paints rectangles into a `<canvas>`, then change a
-single line in `main.js`:
+([`src/render/renderer.js`](src/render/renderer.js)) — `init`, `clear`,
+`drawCell(x,y,type,variant?)`, `clearCell(x,y)` — in a `CanvasRenderer` that paints rectangles
+into a `<canvas>`, then change a single line in `main.js`:
 
 ```js
 var renderer = new App.CanvasRenderer(canvasEl); // instead of App.DomRenderer
@@ -297,6 +297,10 @@ over http(s) with the sample tag, and the adblock-on path is verified to skip gr
   `prefers-reduced-motion`.
 - **Sound:** synthesized Web Audio (no asset files) for eat/death/win, with a clickable mute
   toggle in the HUD (persisted), behind a `SoundService` abstraction.
+- **Visuals:** pulsing food, a glowing **directional head** (rounds its leading edge, eyes face
+  the way it moves), a continuous body, and a board vignette. Mostly CSS; the head facing is the
+  one small renderer extension — `drawCell` takes an optional `variant` (the head's direction),
+  so the cell-type model still drives everything and the delta/pooled-cell perf is untouched.
 
 ## What I'd improve with more time
 

@@ -126,6 +126,7 @@ App.SnakeGame = (function () {
   SnakeGame.prototype.speedMs = function () { return this._speedMs; };
   SnakeGame.prototype.snakeCells = function () { return this._snake.cells(); };
   SnakeGame.prototype.foodPosition = function () { return this._food.position(); };
+  SnakeGame.prototype.headDirection = function () { return this._snake.direction(); };
 
   return SnakeGame;
 })();

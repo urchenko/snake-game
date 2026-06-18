@@ -83,7 +83,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .fx-flash-layer.is-flash,
   .scene.fx-shake,
-  .hud__score.is-pulse {
+  .hud__score.is-pulse,
+  .cell--food {
     animation: none;
   }
 }
@@ -159,17 +160,78 @@ body {
   width: 1280px;
   height: 640px;
 }
+/* Subtle vignette over the board (purely cosmetic; doesn't catch input). */
+.playfield::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.34) 100%);
+}
 
-/* Pooled cells: positioned once, only className (background) changes per tick. */
+/* Pooled cells: positioned once, only className (background) changes per tick.
+   All the visual styling below is class-driven CSS — no extra per-tick work. */
 .cell {
   position: absolute;
 }
 .cell--even { background: var(--color-board-even); }
 .cell--odd  { background: var(--color-board-odd); }
 
-.cell--snake { background: var(--color-snake); }
-.cell--head  { background: var(--color-head); }
-.cell--food  { background: var(--color-food); border-radius: 50%; }
+/* Body cells butt together edge-to-edge (no rounding, no per-cell highlight)
+   so the snake reads as one continuous path rather than separate tiles. */
+.cell--snake {
+  background: var(--color-snake);
+}
+/* Head: base look; the directional variant rounds the LEADING edge and places
+   the eyes toward the facing side, so the head "looks" where it moves and joins
+   the body seamlessly on the trailing edge. */
+.cell--head {
+  background: var(--color-head);
+  border-radius: 3px;
+  box-shadow: 0 0 12px rgba(116, 232, 174, 0.5);
+  z-index: 1;
+}
+.cell--head--right {
+  border-radius: 3px 13px 13px 3px;
+  background:
+    radial-gradient(circle at 70% 32%, #0e1116 0 13%, transparent 16%),
+    radial-gradient(circle at 70% 68%, #0e1116 0 13%, transparent 16%),
+    var(--color-head);
+}
+.cell--head--left {
+  border-radius: 13px 3px 3px 13px;
+  background:
+    radial-gradient(circle at 30% 32%, #0e1116 0 13%, transparent 16%),
+    radial-gradient(circle at 30% 68%, #0e1116 0 13%, transparent 16%),
+    var(--color-head);
+}
+.cell--head--up {
+  border-radius: 13px 13px 3px 3px;
+  background:
+    radial-gradient(circle at 32% 30%, #0e1116 0 13%, transparent 16%),
+    radial-gradient(circle at 68% 30%, #0e1116 0 13%, transparent 16%),
+    var(--color-head);
+}
+.cell--head--down {
+  border-radius: 3px 3px 13px 13px;
+  background:
+    radial-gradient(circle at 32% 70%, #0e1116 0 13%, transparent 16%),
+    radial-gradient(circle at 68% 70%, #0e1116 0 13%, transparent 16%),
+    var(--color-head);
+}
+.cell--food {
+  background: var(--color-food);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(229, 83, 75, 0.7);
+  animation: food-pulse 1s ease-in-out infinite;
+}
+@keyframes food-pulse {
+  0%, 100% { transform: scale(0.82); }
+  50%      { transform: scale(1); }
+}
 
 /* UI layer: our own dialogs render here, above the board, below the ad. */
 .ui-layer {

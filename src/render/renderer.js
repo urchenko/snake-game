@@ -30,10 +30,13 @@ App.Renderer = (function () {
   Renderer.prototype.clear = notImplemented('clear');
 
   /**
-   * Paint a single cell with a semantic type (Config.CELL_*).
+   * Paint a single cell with a semantic type (Config.CELL_*), plus an optional
+   * variant modifier (e.g. a head's facing 'up'/'down'/'left'/'right'). The
+   * variant is a pure presentation hint — concrete renderers may ignore it.
    * @param {number} x
    * @param {number} y
    * @param {string} type
+   * @param {string=} variant
    */
   Renderer.prototype.drawCell = notImplemented('drawCell');
 

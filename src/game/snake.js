@@ -56,6 +56,11 @@ App.Snake = (function () {
     return this._cells[0];
   };
 
+  /** @returns {{x:number,y:number}} last applied heading (copy). */
+  Snake.prototype.direction = function () {
+    return { x: this._direction.x, y: this._direction.y };
+  };
+
   /** @returns {{x:number,y:number}} tail cell (do not mutate). */
   Snake.prototype.tail = function () {
     return this._cells[this._cells.length - 1];

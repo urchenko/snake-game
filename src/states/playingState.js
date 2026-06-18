@@ -22,6 +22,15 @@ App.PlayingState = (function () {
   DIRS[Config.CMD_LEFT] = Config.DIR_LEFT;
   DIRS[Config.CMD_RIGHT] = Config.DIR_RIGHT;
 
+  // Heading vector -> head facing variant (for the renderer).
+  function headVariant(d) {
+    if (!d) { return 'right'; }
+    if (d.x > 0) { return 'right'; }
+    if (d.x < 0) { return 'left'; }
+    if (d.y > 0) { return 'down'; }
+    return 'up';
+  }
+
   /**
    * @param {Object} ctx shared services (machine, renderer, hud, game, ...)
    */
@@ -168,8 +177,13 @@ App.PlayingState = (function () {
       }
     }
 
+    var facing = headVariant(this._ctx.game.headDirection());
     cells.forEach(function (c, i) {
-      renderer.drawCell(c.x, c.y, (i === 0) ? Config.CELL_HEAD : Config.CELL_SNAKE);
+      if (i === 0) {
+        renderer.drawCell(c.x, c.y, Config.CELL_HEAD, facing);
+      } else {
+        renderer.drawCell(c.x, c.y, Config.CELL_SNAKE);
+      }
     });
     if (food) {
       renderer.drawCell(food.x, food.y, Config.CELL_FOOD);

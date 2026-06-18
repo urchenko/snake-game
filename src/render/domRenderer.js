@@ -85,17 +85,24 @@ App.DomRenderer = (function () {
    * @param {number} x
    * @param {number} y
    * @param {string} type one of Config.CELL_*
+   * @param {string=} variant optional modifier (e.g. head facing); adds
+   *   `cell--<type>--<variant>` so CSS can style it.
    */
-  DomRenderer.prototype.drawCell = function (x, y, type) {
+  DomRenderer.prototype.drawCell = function (x, y, type, variant) {
     var idx = this._index(x, y);
-    if (this._types[idx] === type) {
+    // Cache the full (type + variant) signature so a variant change repaints.
+    var key = type + '|' + (variant || '');
+    if (this._types[idx] === key) {
       return; // no-op: avoid touching the DOM
     }
-    this._types[idx] = type;
+    this._types[idx] = key;
     var el = this._cells[idx];
     var className = 'cell ' + el._parity;
     if (type && type !== Config.CELL_EMPTY) {
       className += ' cell--' + type;
+      if (variant) {
+        className += ' cell--' + type + '--' + variant;
+      }
     }
     el.className = className;
   };
