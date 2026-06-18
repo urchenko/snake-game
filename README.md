@@ -290,10 +290,17 @@ over http(s) with the sample tag, and the adblock-on path is verified to skip gr
 
 ---
 
+## Polish included
+
+- **Persistent high score** ("Best") in localStorage, shown in the HUD; graceful in private mode.
+- **Game feel:** eat flash (opacity overlay) + score pop, death shake — honoring
+  `prefers-reduced-motion`.
+- **Sound:** synthesized Web Audio (no asset files) for eat/death/win, with a clickable mute
+  toggle in the HUD (persisted), behind a `SoundService` abstraction.
+
 ## What I'd improve with more time
 
 - A small test harness committed to the repo (the dev tests were throwaway scripts).
-- Sound and a bit more game feel (eat flash, death shake), and a persistent high score.
 - A `CanvasRenderer` to demonstrate the renderer swap end-to-end.
 - Smarter food placement weighting and a brief countdown after an ad before the snake moves.
 

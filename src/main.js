@@ -38,6 +38,14 @@
     var game = new App.SnakeGame();
     var highScore = new App.HighScore(Config.HISCORE_KEY);
 
+    // Synthesized sounds (no asset files); silent fallback if no AudioContext.
+    var hasAudio = !!(window.AudioContext || window.webkitAudioContext);
+    var sound = hasAudio
+      ? new App.WebAudioSoundService({ storageKey: Config.MUTE_KEY })
+      : new App.NoopSoundService();
+    hud.setMuted(sound.isMuted());
+    hud.onMute(function () { hud.setMuted(sound.toggleMuted()); });
+
     // Real ads via Google IMA. The service fails gracefully (missing SDK /
     // adblock / error / empty VAST / hung load) so the game never gets stuck;
     // swap for App.NoopAdService here to disable ads entirely.
@@ -59,6 +67,7 @@
       hud: hud,
       dialog: dialog,
       effects: effects,
+      sound: sound,
       game: game,
       highScore: highScore,
       adService: adService,

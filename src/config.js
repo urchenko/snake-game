@@ -66,8 +66,9 @@ App.Config = (function () {
     STATE_PLAYING: 'playing',
     STATE_GAMEOVER: 'gameover',
 
-    /* localStorage key for the persistent high score. */
+    /* localStorage keys. */
     HISCORE_KEY: 'snake.hiscore',
+    MUTE_KEY: 'snake.muted',
 
     /* External resource on "No" / decline. Replace with google.com / wikipedia.org if desired. */
     REDIRECT_URL: 'https://play.works',

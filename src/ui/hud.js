@@ -33,8 +33,14 @@ App.Hud = (function () {
     this._score = document.createElement('span');
     this._score.className = 'hud__score';
 
+    // Clickable mute toggle (the 6 keys are reserved, so sound is mouse-toggled).
+    this._mute = document.createElement('span');
+    this._mute.className = 'hud__mute';
+    this._mute.title = 'Toggle sound';
+
     this._right.appendChild(this._best);
     this._right.appendChild(this._score);
+    this._right.appendChild(this._mute);
 
     this._el.appendChild(this._brand);
     this._el.appendChild(this._status);
@@ -43,6 +49,7 @@ App.Hud = (function () {
     this.setBest(0);
     this.setScore(0);
     this.setStatus('');
+    this.setMuted(false);
   }
 
   /** @param {number} score */
@@ -53,6 +60,17 @@ App.Hud = (function () {
   /** @param {number} best persistent high score */
   Hud.prototype.setBest = function (best) {
     this._best.textContent = 'Best: ' + best;
+  };
+
+  /** @param {boolean} muted reflect the sound state on the toggle. */
+  Hud.prototype.setMuted = function (muted) {
+    this._mute.textContent = muted ? '🔇' : '🔊'; // 🔇 / 🔊
+    this._mute.className = muted ? 'hud__mute hud__mute--off' : 'hud__mute';
+  };
+
+  /** @param {Function} fn click handler for the mute toggle. */
+  Hud.prototype.onMute = function (fn) {
+    this._mute.addEventListener('click', fn, false);
   };
 
   /** Briefly pop the score number (game feel on eat). */

@@ -44,9 +44,11 @@ App.PlayingState = (function () {
       self._ctx.hud.setScore(p.score);
       self._ctx.hud.pulseScore();
       self._ctx.effects.flash();
+      self._ctx.sound.play('eat');
     };
     this._onGameOver = function (p) {
       self._ctx.effects.shake();
+      self._ctx.sound.play('death');
       self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, reason: p.reason, won: false
@@ -54,6 +56,7 @@ App.PlayingState = (function () {
     };
     this._onWin = function (p) {
       self._ctx.effects.flash();
+      self._ctx.sound.play('win');
       self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, won: true
