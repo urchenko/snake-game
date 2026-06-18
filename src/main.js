@@ -66,6 +66,7 @@
       renderer: renderer,
       hud: hud,
       dialog: dialog,
+      uiLayer: uiLayerEl,
       effects: effects,
       sound: sound,
       game: game,

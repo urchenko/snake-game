@@ -98,6 +98,7 @@ App.PlayingState = (function () {
     ctx.hud.setScore(ctx.game.score());
     ctx.hud.setBest(ctx.highScore.get());
     this._render();
+    this._startCountdown();
   };
 
   PlayingState.prototype.exit = function () {
@@ -110,6 +111,60 @@ App.PlayingState = (function () {
     window.removeEventListener('blur', this._onBlur, false);
     window.removeEventListener('focus', this._onFocus, false);
     ctx.hud.setStatus('');
+    this._counting = false;
+    this._hideCountdown();
+  };
+
+  /* --- Ready countdown (3·2·1·Go) before the snake starts moving ----------- */
+
+  PlayingState.prototype._startCountdown = function () {
+    this._cdItems = ['3', '2', '1', 'Go!'];
+    this._cdIdx = 0;
+    this._cdAcc = 0;
+    this._counting = Config.COUNTDOWN_STEP_MS > 0;
+    if (this._counting) {
+      this._showCountdown(this._cdItems[0]);
+    } else {
+      this._hideCountdown();
+    }
+  };
+
+  PlayingState.prototype._tickCountdown = function (stepMs) {
+    this._cdAcc += stepMs;
+    while (this._counting && this._cdAcc >= Config.COUNTDOWN_STEP_MS) {
+      this._cdAcc -= Config.COUNTDOWN_STEP_MS;
+      this._cdIdx += 1;
+      if (this._cdIdx >= this._cdItems.length) {
+        this._counting = false;
+        this._hideCountdown();
+      } else {
+        this._showCountdown(this._cdItems[this._cdIdx]);
+      }
+    }
+  };
+
+  PlayingState.prototype._countdownEl = function () {
+    if (!this._cdEl) {
+      var el = document.createElement('div');
+      el.className = 'countdown countdown--hidden';
+      this._ctx.uiLayer.appendChild(el);
+      this._cdEl = el;
+    }
+    return this._cdEl;
+  };
+
+  PlayingState.prototype._showCountdown = function (text) {
+    var el = this._countdownEl();
+    el.textContent = text;
+    el.className = 'countdown'; // visible
+    void el.offsetWidth;        // restart the pop animation per item
+    el.className = 'countdown is-pop';
+  };
+
+  PlayingState.prototype._hideCountdown = function () {
+    if (this._cdEl) {
+      this._cdEl.className = 'countdown countdown--hidden';
+    }
   };
 
   PlayingState.prototype._pause = function () {
@@ -139,6 +194,10 @@ App.PlayingState = (function () {
   PlayingState.prototype.update = function (stepMs) {
     var game = this._ctx.game;
     if (this._paused || game.isOver()) {
+      return;
+    }
+    if (this._counting) {
+      this._tickCountdown(stepMs); // snake stays put until "Go!"
       return;
     }
     this._acc += stepMs;

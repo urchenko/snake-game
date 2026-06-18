@@ -32,10 +32,11 @@ App.SnakeGame = (function () {
     this._minSpeedMs = options.minSpeedMs || Config.MIN_SPEED_MS;
     this._speedStepMs = options.speedStepMs || Config.SPEED_STEP_MS;
     this._speedUp = options.speedUp !== undefined ? options.speedUp : Config.SPEED_UP;
+    var weightFood = options.weightFood !== undefined ? options.weightFood : Config.FOOD_OPENNESS_WEIGHTING;
 
     this.events = new App.EventEmitter();
 
-    this._board = new App.Board(this._cols, this._rows);
+    this._board = new App.Board(this._cols, this._rows, weightFood);
     this._snake = null;
     this._food = new App.Food();
     this._score = 0;

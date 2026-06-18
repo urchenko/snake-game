@@ -301,12 +301,14 @@ over http(s) with the sample tag, and the adblock-on path is verified to skip gr
   the way it moves), a continuous body, and a board vignette. Mostly CSS; the head facing is the
   one small renderer extension — `drawCell` takes an optional `variant` (the head's direction),
   so the cell-type model still drives everything and the delta/pooled-cell perf is untouched.
+- **Feel:** food spawns are weighted toward open cells (away from cramped corners/walls;
+  `FOOD_OPENNESS_WEIGHTING`), and a `3·2·1·Go!` ready countdown plays before the snake moves
+  (e.g. right after an ad; `COUNTDOWN_STEP_MS`).
 
 ## What I'd improve with more time
 
 - A small test harness committed to the repo (the dev tests were throwaway scripts).
 - A `CanvasRenderer` to demonstrate the renderer swap end-to-end.
-- Smarter food placement weighting and a brief countdown after an ad before the snake moves.
 
 ---
 

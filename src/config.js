@@ -40,6 +40,14 @@ App.Config = (function () {
     /* Snake start. */
     START_LENGTH: 3,           // initial body length
 
+    /* Ready countdown before the snake starts moving (e.g. after an ad).
+     * ms shown per item ('3','2','1','Go!'); 0 disables the countdown. */
+    COUNTDOWN_STEP_MS: 500,
+
+    /* Food placement: bias spawns toward open cells (weight = free neighbours + 1).
+     * false = classic uniform-random. */
+    FOOD_OPENNESS_WEIGHTING: true,
+
     /* Direction vectors (grid space: +y is down). Reusable across input/domain. */
     DIR_UP: { x: 0, y: -1 },
     DIR_DOWN: { x: 0, y: 1 },
