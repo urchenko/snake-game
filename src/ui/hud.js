@@ -23,13 +23,24 @@ App.Hud = (function () {
     this._status = document.createElement('span');
     this._status.className = 'hud__status';
 
+    // Right side holds Best + Score together.
+    this._right = document.createElement('span');
+    this._right.className = 'hud__right';
+
+    this._best = document.createElement('span');
+    this._best.className = 'hud__best';
+
     this._score = document.createElement('span');
     this._score.className = 'hud__score';
 
+    this._right.appendChild(this._best);
+    this._right.appendChild(this._score);
+
     this._el.appendChild(this._brand);
     this._el.appendChild(this._status);
-    this._el.appendChild(this._score);
+    this._el.appendChild(this._right);
 
+    this.setBest(0);
     this.setScore(0);
     this.setStatus('');
   }
@@ -37,6 +48,11 @@ App.Hud = (function () {
   /** @param {number} score */
   Hud.prototype.setScore = function (score) {
     this._score.textContent = 'Score: ' + score;
+  };
+
+  /** @param {number} best persistent high score */
+  Hud.prototype.setBest = function (best) {
+    this._best.textContent = 'Best: ' + best;
   };
 
   /** @param {string} text centered status text (e.g. "Paused"); '' to clear. */

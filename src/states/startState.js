@@ -24,6 +24,7 @@ App.StartState = (function () {
     var ctx = this._ctx;
     ctx.renderer.clear();
     ctx.hud.setScore(0);
+    ctx.hud.setBest(ctx.highScore.get());
     ctx.dialog.open({
       title: 'Play Snake?',
       options: [

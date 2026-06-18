@@ -35,6 +35,7 @@
     var hud = new App.Hud(hudEl);
     var dialog = new App.Dialog(uiLayerEl);
     var game = new App.SnakeGame();
+    var highScore = new App.HighScore(Config.HISCORE_KEY);
 
     // Real ads via Google IMA. The service fails gracefully (missing SDK /
     // adblock / error / empty VAST / hung load) so the game never gets stuck;
@@ -57,6 +58,7 @@
       hud: hud,
       dialog: dialog,
       game: game,
+      highScore: highScore,
       adService: adService,
       redirect: function () {
         window.location.href = Config.REDIRECT_URL;

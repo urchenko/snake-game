@@ -42,16 +42,24 @@ App.PlayingState = (function () {
 
     this._onAte = function (p) { self._ctx.hud.setScore(p.score); };
     this._onGameOver = function (p) {
+      self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, reason: p.reason, won: false
       });
     };
     this._onWin = function (p) {
+      self._recordBest(p.score);
       self._ctx.machine.change(Config.STATE_GAMEOVER, {
         score: p.score, won: true
       });
     };
   }
+
+  /** Persist the score if it's a new best, and refresh the HUD's "Best". */
+  PlayingState.prototype._recordBest = function (score) {
+    var best = this._ctx.highScore.submit(score);
+    this._ctx.hud.setBest(best);
+  };
 
   PlayingState.prototype.enter = function () {
     var ctx = this._ctx;
@@ -70,6 +78,7 @@ App.PlayingState = (function () {
     ctx.hud.setStatus('');
     ctx.game.reset();
     ctx.hud.setScore(ctx.game.score());
+    ctx.hud.setBest(ctx.highScore.get());
     this._render();
   };
 
