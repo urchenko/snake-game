@@ -32,9 +32,9 @@ App.Config = (function () {
     /* Game loop / speed.
      * Fixed timestep for the loop; snake moves on its own ms accumulator. */
     LOOP_STEP_MS: 1000 / 60,   // fixed update step fed to states
-    START_SPEED_MS: 120,       // ms between snake moves at game start (~8.3/s)
-    MIN_SPEED_MS: 60,          // fastest allowed (speed cap)
-    SPEED_STEP_MS: 4,          // sped up by this much each time food is eaten
+    START_SPEED_MS: 160,       // ms between snake moves at game start (~6.25/s)
+    MIN_SPEED_MS: 70,          // fastest allowed (speed cap)
+    SPEED_STEP_MS: 2,          // sped up by this much each time food is eaten
     SPEED_UP: true,            // toggle acceleration on/off
 
     /* Snake start. */
